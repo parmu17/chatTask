@@ -12,9 +12,13 @@ const pub_folder = path.join(__dirname, '../public');
 app.use(express.static(path.join(pub_folder)));
 
 var val1 = 65, val2 = 30;
-io.on('connection', (socket1)=>{
+io.on('connection', (socket)=>{
   console.log('My chatTask server got a new websocket connection..'); //upon request from client page
-  socket1.emit('pageUpdated1', val1, val2);
+  socket.emit('pageUpdated1', val1, val2);
+  socket.on('myevent1', ()=>{
+    val1 += 5;
+    socket.emit('pageUpdated1', val1, val2);
+  })
 });
 
 server.listen(port, ()=>{
