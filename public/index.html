@@ -7,18 +7,32 @@
 	<body>
     <div>
     <h1 style="text-align: center; color:red; background-color: black;">Chat Application</h1>
-      <form id='form_submit1'>
-        <input placeholder="Write your message here"> &nbsp;
-        <button >Send</button>
-      </form>
+    <form id='form_submit1'>
+      <input id='msg_inp' placeholder="Write your message here"> &nbsp;
+      <button >Send</button>
+    </form>
     <br>
-    <button type='button' id='aaa'>cmd-1</button><br>
+    <button type='button' id='btn1'>Button-1</button><br>
     <label>Received Message: <span id="received_msg"></span><label>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-		<script src="./js/logic1.js"></script>
-		
-		
+    <script type="text/javascript">
+      const socket = io();
+      socket.on('event1', (msg1)=>{
+        console.log(msg1);
+        document.getElementById('received_msg').innerHTML = msg1;
+      })
+
+      document.querySelector('#btn1').addEventListener('click', ()=>{
+        socket.emit('event2', "Hello server, this is from a client, button clicked");
+      })
+
+      socket.on('event3', (msg4)=>{
+        console.log(msg4);
+        document.getElementById('received_msg').innerHTML = msg4;
+      })
+
+    </script>
 	</body>
 </html>
