@@ -14,11 +14,16 @@ app.use(express.static(path.join(pub_folder)));
 io.on('connection', (socket)=>{
   console.log('new client connected')
   socket.emit('event1', "Most Welcome.."); //to every one upon connection,( event1)
-  socket.broadcast.emit('event1', 'A new user joined our community') //for every one except the new client, (event1)
+  socket.broadcast.emit('event1', 'A new user joined conversation') //for every one except the new client, (event1)
+  
   socket.on('event2', (msg2)=>{
     console.log(msg2);
-    var msg3 = "your message ''" + msg2 + "' received, yours sincerely server.."
-    socket.emit('event3', msg3);  //send to the spsecific client
+    var msg3 = "Your fried wrote '" + msg2 + "', yours sincerely server.."
+    io.emit('event1', msg3);  //group conversation
+  })
+
+  socket.on('disconnect', ()=>{
+    io.emit('event1', "A user has left conversation");
   })
 })
 
