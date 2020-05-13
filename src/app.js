@@ -16,10 +16,11 @@ io.on('connection', (socket)=>{
   socket.emit('event1', "Most Welcome.."); //to every one upon connection,( event1)
   socket.broadcast.emit('event1', 'A new user joined conversation') //for every one except the new client, (event1)
   
-  socket.on('event2', (msg2)=>{
+  socket.on('event2', (msg2, cb)=>{
     console.log(msg2);
-    var msg3 = "Your fried wrote '" + msg2 + "', yours sincerely server.."
+    var msg3 = "Your fried wrote '" + msg2 + "', -yours sincerely server.."
     io.emit('event1', msg3);  //group conversation
+    cb("Deliverd Successfully..");
   })
 
   socket.on('location_event', (pos)=>{

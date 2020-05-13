@@ -26,7 +26,9 @@
       })
 
       document.querySelector('#btn1').addEventListener('click', ()=>{
-        socket.emit('event2', "Hello server, this is from a client, button clicked");
+        socket.emit('event2', "Hello server, this is from a client", (ackMsg1)=>{
+          console.log('Acknowledgement Msg: ' + ackMsg1);
+        });
       })
 
       socket.on('event3', (msg4)=>{
@@ -39,7 +41,6 @@
           alert('Geolocation is not supported by your browser..');
         }else{
           navigator.geolocation.getCurrentPosition((position)=>{
-            //console.log(position.coords.latitude);
             socket.emit('location_event', {lati:position.coords.latitude, longi:position.coords.longitude});
           })
         }
