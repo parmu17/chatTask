@@ -26,7 +26,7 @@ io.on('connection', (socket)=>{
     //With normal words
     var msg3 = "Your fried wrote '" + msg2 + "', -yours sincerely server.."
     io.emit('event1', msg3);  //group conversation
-    cb("deliverd Successfully..");
+    cb(); //so callback argument will be emty for successfull dilivery
   })
 
   socket.on('location_event', (pos)=>{

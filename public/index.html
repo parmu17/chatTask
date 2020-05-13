@@ -29,7 +29,11 @@
         e.preventDefault();
         const userMsg = e.target.elements.msg_inp.value; //text from html form
         socket.emit('event2', userMsg, (ackMsg1)=>{
-          console.log('Acknowledgement Msg: ' + ackMsg1);
+          if(!ackMsg1){
+            console.log('successfully delivered..');
+          }else{
+            console.log(ackMsg1);
+          }
         });
       })
 
