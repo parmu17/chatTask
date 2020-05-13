@@ -22,6 +22,10 @@ io.on('connection', (socket)=>{
     io.emit('event1', msg3);  //group conversation
   })
 
+  socket.on('location_event', (pos)=>{
+    io.emit('event1', `https://google.com/maps?q=${pos.lati},${pos.longi}`);
+  })
+
   socket.on('disconnect', ()=>{
     io.emit('event1', "A user has left conversation");
   })

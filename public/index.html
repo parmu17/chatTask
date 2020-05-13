@@ -7,13 +7,14 @@
 	<body>
     <div>
     <h1 style="text-align: center; color:red; background-color: black;">Chat Application</h1>
+    <label>Received Message: <span id="received_msg"></span></label><br><br>
     <form id='form_submit1'>
       <input id='msg_inp' placeholder="Write your message here"> &nbsp;
       <button >Send</button>
     </form>
     <br>
     <button type='button' id='btn1'>Button-1</button><br>
-    <label>Received Message: <span id="received_msg"></span><label>
+    <button type='button' id='send_loc'>Send Location</button><br>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -31,6 +32,17 @@
       socket.on('event3', (msg4)=>{
         console.log(msg4);
         document.getElementById('received_msg').innerHTML = msg4;
+      })
+
+      document.querySelector('#send_loc').addEventListener('click', ()=>{
+        if(!navigator.geolocation){
+          alert('Geolocation is not supported by your browser..');
+        }else{
+          navigator.geolocation.getCurrentPosition((position)=>{
+            //console.log(position.coords.latitude);
+            socket.emit('location_event', {lati:position.coords.latitude, longi:position.coords.longitude});
+          })
+        }
       })
 
     </script>
