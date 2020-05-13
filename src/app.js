@@ -1,3 +1,4 @@
+const Filter = require('bad-words');
 const path = require('path');
 const express = require('express');
 const http = require('http');
@@ -17,10 +18,15 @@ io.on('connection', (socket)=>{
   socket.broadcast.emit('event1', 'A new user joined conversation') //for every one except the new client, (event1)
   
   socket.on('event2', (msg2, cb)=>{
-    console.log(msg2);
+    //acknowledgement with filter
+    const filter = new Filter;
+    if(filter.isProfane(msg2)){
+      return cb("profanity not allowed..")
+    }
+    //With normal words
     var msg3 = "Your fried wrote '" + msg2 + "', -yours sincerely server.."
     io.emit('event1', msg3);  //group conversation
-    cb("Deliverd Successfully..");
+    cb("deliverd Successfully..");
   })
 
   socket.on('location_event', (pos)=>{
