@@ -25,12 +25,19 @@ io.on('connection', (socket)=>{
     }
     //With normal words
     var msg3 = "Your fried wrote '" + msg2 + "', -yours sincerely server.."
-    io.emit('event1', msg3);  //group conversation
-    cb(); //so callback argument will be emty for successfull dilivery
+    //io.emit('event1', msg3);  //to all clients
+    //socket.emit('event1', msg3);  //to only client
+    socket.broadcast.emit('event1', msg3);  //to all except the only client
+    cb(); //ack messsage to the only client
   })
 
-  socket.on('location_event', (pos)=>{
+  socket.on('location_event', (pos, cb)=>{
+    const filter = new Filter;
+    if(filter.isProfane(pos)){
+      return cb('something went wrong');
+    }
     io.emit('event1', `https://google.com/maps?q=${pos.lati},${pos.longi}`);
+    cb(); //for successfull delivery
   })
 
   socket.on('disconnect', ()=>{

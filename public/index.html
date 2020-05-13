@@ -47,7 +47,13 @@
           alert('Geolocation is not supported by your browser..');
         }else{
           navigator.geolocation.getCurrentPosition((position)=>{
-            socket.emit('location_event', {lati:position.coords.latitude, longi:position.coords.longitude});
+            socket.emit('location_event', {lati:position.coords.latitude, longi:position.coords.longitude}, (ackMsg2)=>{
+              if(!ackMsg2){
+                console.log('location shared..');
+              }else{
+                console.log(ackMsg2);
+              }
+            });
           })
         }
       })
